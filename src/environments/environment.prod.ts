@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  movieApi: 'http://www.omdbapi.com',
+  movieApiKey: '5f81bfba'
 };
