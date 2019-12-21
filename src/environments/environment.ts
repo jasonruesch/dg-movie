@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   movieApi: 'http://www.omdbapi.com',
-  movieApiKey: '5f81bfba'
+  movieApiKey: '5f81bfba',
+  imdbUrl: 'https://www.imdb.com'
 };
 
 /*

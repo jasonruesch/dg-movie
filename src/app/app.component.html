@@ -1,7 +1,20 @@
+<div class="years">
+    <button class="active">2000's</button>
+    <button>1990's</button>
+</div>
+
 <div *ngFor="let movie of movies$ | async">
-    <div>
+    <div class="movie">
         <img [src]="movie.poster" alt="" />
-        <h1>{{ movie.title }}</h1>
-        <hr />
+        <div class="details">
+            <h1>{{ movie.title }}</h1>
+            <div class="meta">
+                <div class="rated">{{ movie.rated }}</div>
+                <div class="runtime">{{ movie.runtime }}</div>
+                <div class="released">{{ movie.released }}</div>
+            </div>
+            <div class="plot">{{ movie.plot }}</div>
+            <a class="imdb" [href]="movie.imdbUrl" target="_blank">View on IMDB</a>
+        </div>
     </div>
 </div>

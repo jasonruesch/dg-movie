@@ -1,7 +1,10 @@
 export interface Movie {
     title: string;
     year: number;
-    imdbId: string;
-    type: string;
+    rated: string;
+    released: string;
+    runtime: string;
     poster: string;
+    plot: string;
+    imdbUrl: string;
 }
