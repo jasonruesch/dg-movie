@@ -5,7 +5,7 @@
 
 <div *ngFor="let movie of movies$ | async">
     <div class="movie">
-        <img *ngIf="movie.poster !== 'N/A'" [src]="movie.poster" alt="" />
+        <img *ngIf="movie.poster" [src]="movie.poster" alt="" />
         <div class="details">
             <h1>{{ movie.title }}</h1>
             <div class="meta">

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError, from } from 'rxjs';
 import { map, tap, switchMap, catchError } from 'rxjs/operators';
 import { Movie } from './movie.model';
-import { ENVIRONMENT } from '../shared/inject-tokens.ts';
+import { ENVIRONMENT } from '../shared/inject-tokens';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -36,7 +36,7 @@ export class MovieService {
           rated: data.Rated,
           released: data.Released,
           runtime: data.Runtime,
-          poster: data.Poster,
+          poster: data.Poster === 'N/A' ? null : `assets/images/${data.Poster.substr(data.Poster.lastIndexOf('/') + 1)}`,
           plot: data.Plot,
           imdbUrl: `${this.env.imdbUrl}/title/${data.imdbID}/`
         } as Movie;

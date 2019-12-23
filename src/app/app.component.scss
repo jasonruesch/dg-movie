@@ -6,12 +6,12 @@
         background-color: var(--color-lighter);
         border: solid 2px var(--color-medium);
         border-radius: 8px;
-        color: var(--color-dark);
+        color: var(--color-gray);
         font-family: 'Open Sans', sans-serif;
         font-size: 1em;
         font-weight: 500;
         margin: 0;
-        padding: 1rem 3rem;
+        padding: .75rem 2.5rem;
 
         &:first-child {
             border-top-right-radius: 0;
@@ -74,7 +74,7 @@
         color: var(--color-white);
         display: block;
         font-weight: 700;
-        padding: 1rem 4rem;
+        padding: 1.25rem 5.75rem;
         text-decoration: none;
     }
 }
