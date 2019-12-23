@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from './core/movie.service';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, combineLatest, merge } from 'rxjs';
+import { tap, concatMap, map } from 'rxjs/operators';
 import { Movie } from './core/movie.model';
 
 @Component({
@@ -12,12 +12,33 @@ import { Movie } from './core/movie.model';
 export class AppComponent implements OnInit {
 
   movies$: Observable<Movie[]>;
+  search = 'Batman';
+  selectedYear: number;
 
   constructor(private movieService: MovieService) { }
 
   ngOnInit() {
-    this.movies$ = this.movieService.getMovies('Batman').pipe(
-      tap(console.log)
+    this.getMovies();
+  }
+
+  getMovies() {
+    const yearStreams$ = !!this.selectedYear ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+      offset => this.movieService.getMovieIds([this.search, this.selectedYear + offset])
+    ) : [this.movieService.getMovieIds([this.search])];
+
+    this.movies$ = combineLatest(...yearStreams$).pipe(
+      map(ids => [].concat(...ids).filter(x => x).splice(0, 10)),
+      concatMap(ids => {
+        const detailStreams$ = ids.map(
+          id => this.movieService.getMovieDetail(id)
+        );
+        return combineLatest(...detailStreams$);
+      })
     );
+  }
+
+  selectYear(year: number) {
+    this.selectedYear = year !== this.selectedYear ? year : null;
+    this.getMovies();
   }
 }

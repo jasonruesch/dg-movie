@@ -1,11 +1,11 @@
 <div class="years">
-    <button class="active">2000's</button>
-    <button>1990's</button>
+    <button [class.active]="selectedYear === 2000" (click)="selectYear(2000)">2000's</button>
+    <button [class.active]="selectedYear === 1990" (click)="selectYear(1990)">1990's</button>
 </div>
 
 <div *ngFor="let movie of movies$ | async">
     <div class="movie">
-        <img [src]="movie.poster" alt="" />
+        <img *ngIf="movie.poster !== 'N/A'" [src]="movie.poster" alt="" />
         <div class="details">
             <h1>{{ movie.title }}</h1>
             <div class="meta">

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError, from } from 'rxjs';
+import { map, tap, switchMap, catchError } from 'rxjs/operators';
 import { Movie } from './movie.model';
 import { ENVIRONMENT } from '../shared/inject-tokens.ts';
 import { environment } from 'src/environments/environment';
@@ -16,24 +16,23 @@ export class MovieService {
     @Inject(ENVIRONMENT) private env: typeof environment
   ) { }
 
-  getMovies(search?: string): Observable<Movie[]> {
-    return this.http.get<any>(`${this.env.movieApi}?s=${search}&apikey=${this.env.movieApiKey}`).pipe(
-      map(data => data.Search as any[]),
-      switchMap(items => {
-        const movieStreams = items.slice(0, 10).map(
-          item => this.getMovieDetail(item)
-        );
-        return combineLatest(...movieStreams);
-      })
+  // getMovieIds({ title, year }: { title?: string, year?: number }): Observable<string[]> {
+  getMovieIds([title, year]: [string, number?]): Observable<string[]> {
+    let url = `${this.env.movieApi}?apikey=${this.env.movieApiKey}&type=movie`;
+    url += title ? `&s=${title}` : '';
+    url += year ? `&y=${year}` : '';
+    return this.http.get<any>(url).pipe(
+      tap(console.log),
+      map(data => data.Response === 'True' ? data.Search.map(x => x.imdbID) : null)
     );
   }
 
-  getMovieDetail(item: any): Observable<Movie> {
-    return this.http.get<any>(`${this.env.movieApi}?i=${item.imdbID}&apiKey=${this.env.movieApiKey}`).pipe(
+  getMovieDetail(imdbId: string): Observable<Movie> {
+    // console.log(item);
+    return this.http.get<any>(`${this.env.movieApi}?i=${imdbId}&apiKey=${this.env.movieApiKey}`).pipe(
       map(data => {
         return {
           title: data.Title,
-          year: item.Year,
           rated: data.Rated,
           released: data.Released,
           runtime: data.Runtime,
