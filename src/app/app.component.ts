@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from './core/movie.service';
-import { Observable, combineLatest, merge } from 'rxjs';
-import { tap, concatMap, map } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
 import { Movie } from './core/movie.model';
 
 @Component({
@@ -22,9 +22,9 @@ export class AppComponent implements OnInit {
   }
 
   getMovies() {
-    const yearStreams$ = !!this.selectedYear ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-      offset => this.movieService.getMovieIds([this.search, this.selectedYear + offset])
-    ) : [this.movieService.getMovieIds([this.search])];
+    const yearStreams$ = !!this.selectedYear ? [...Array(10).keys()].map(
+      offset => this.movieService.getMovieIds(this.search, this.selectedYear + offset)
+    ) : [this.movieService.getMovieIds(this.search)];
 
     this.movies$ = combineLatest(...yearStreams$).pipe(
       map(ids => [].concat(...ids).filter(x => x).splice(0, 10)),

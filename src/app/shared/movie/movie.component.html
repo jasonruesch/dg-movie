@@ -1,0 +1,13 @@
+<div class="movie">
+    <img *ngIf="movie.poster" [src]="movie.poster" alt="" />
+    <div class="details">
+        <h1>{{ movie.title }}</h1>
+        <div class="meta">
+            <div class="rated">{{ movie.rated }}</div>
+            <div class="runtime">{{ movie.runtime }}</div>
+            <div class="released">{{ movie.released }}</div>
+        </div>
+        <div class="plot">{{ movie.plot }}</div>
+        <a class="imdb" [href]="movie.imdbUrl" target="_blank">View on IMDB</a>
+    </div>
+</div>
