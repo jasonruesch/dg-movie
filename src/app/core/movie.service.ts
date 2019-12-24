@@ -21,12 +21,12 @@ export class MovieService {
     url += title ? `&s=${title}` : '';
     url += year ? `&y=${year}` : '';
     return this.http.get<any>(url).pipe(
-      map(data => data.Response === 'True' ? data.Search.map(x => x.imdbID) : null)
+      map(data => data.Response === 'True' ? data.Search.map((x: any) => x.imdbID) : null)
     );
   }
 
   getMovieDetail(imdbId: string): Observable<Movie> {
-    return this.http.get<any>(`${this.env.movieApi}?i=${imdbId}&apiKey=${this.env.movieApiKey}`).pipe(
+    return this.http.get<any>(`${this.env.movieApi}?apikey=${this.env.movieApiKey}&i=${imdbId}`).pipe(
       map(data => {
         return {
           title: data.Title,
