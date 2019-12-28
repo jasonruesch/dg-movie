@@ -1,3 +1,5 @@
+/* Download poster images to host locally */
+
 const http = require('http');
 const https = require('https');
 const fs = require('fs');

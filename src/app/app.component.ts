@@ -22,13 +22,18 @@ export class AppComponent implements OnInit {
   }
 
   getMovies() {
+    // If decade selected, get movie IDs by title and selected decade
     const yearStreams$ = !!this.selectedYear ? [...Array(10).keys()].map(
       offset => this.movieService.getMovieIds(this.search, this.selectedYear + offset)
-    ) : [this.movieService.getMovieIds(this.search)];
+    )
+    :
+    // If no decade selected, get movie IDs by title for all years
+    [this.movieService.getMovieIds(this.search)];
 
     this.movies$ = combineLatest(...yearStreams$).pipe(
       map(ids => [].concat(...ids).filter(x => x).splice(0, 10)),
       concatMap(ids => {
+        // Get movie details for IDs fetched
         const detailStreams$ = ids.map(
           id => this.movieService.getMovieDetail(id)
         );

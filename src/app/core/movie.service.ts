@@ -28,6 +28,7 @@ export class MovieService {
   getMovieDetail(imdbId: string): Observable<Movie> {
     return this.http.get<any>(`${this.env.movieApi}?apikey=${this.env.movieApiKey}&i=${imdbId}`).pipe(
       map(data => {
+        // Basically, mapping PascalCase to camelCase and replacing poster URL with reference to local image
         return {
           title: data.Title,
           rated: data.Rated,
